@@ -9,6 +9,10 @@ const connection = {
 const client = new Client(connection);
 client.connect()
 client.query('SELECT * FROM answers_photos', (err, res) => {
-  console.log(err, res)
+  if (err) {
+    console.log(err)
+  } else {
+    console.log(res)
+  }
   client.end()
 })
