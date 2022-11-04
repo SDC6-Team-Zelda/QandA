@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+const { grabQuestions } = require('../db/index.js')
 // const axios = require('axios');
 // require("dotenv").config();
 
@@ -12,12 +13,20 @@ app.use(express.json());
 
 //List Questions
 app.get('/qa/questions', (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
+  grabQuestions(req.body.product_id)
+  .then((data) => {
+    console.log('sucesfull grab', data)
+  })
+  .catch((err) => {
+    console.log(err)
+  })
 })
 
 //Answers List
 app.get('/qa/answers', (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
+
 })
 
 //Add a Question
