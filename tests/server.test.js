@@ -27,6 +27,7 @@ const newAnswerBody = {
 }
 const helpfulBody = {"question_id": 234351}
 
+const answerHelpfulBody = {"question_id": 2}
 
 jest.setTimeout(20000);
 
@@ -42,6 +43,17 @@ describe('SDC QA Service', () => {
 
   beforeAll(() => {
     console.log('before all...');
+  });
+
+  afterAll(() => {
+    return pool.query(`DELETE FROM questions WHERE asker_name='${newQuestionBody.name}'`)
+      .then(() => {
+        // console.log('succes deleting question')
+        return pool.query(`DELETE FROM answers WHERE answerer_name='${newAnswerBody.params.name}'`)
+        .then(() => {
+          // console.log('success deleting answer')
+        })
+      })
   });
 
   test('Should list all questions for the product', () => {
@@ -83,11 +95,30 @@ describe('SDC QA Service', () => {
   test('Should mark question as helpful', () => {
     return axios.put(`${API_URL}/qa/questions/helpful`, helpfulBody)
       .then((result) => {
-        console.log(result)
+        // console.log(result)
         expect(result.status).toEqual(204);
         // expect(result.statusText).toEqual('No Content')
       })
   });
 
+  test('Should mark an answer as helpful', () => {
+    return axios.put(`${API_URL}/qa/answers/helpful`, answerHelpfulBody)
+      .then((result) => {
+        expect(result.status).toEqual(204);
+      })
+  });
 
+  test('Should report a question', () => {
+    return axios.put(`${API_URL}/qa/questions/report`, helpfulBody)
+      .then((result) => {
+        expect(result.status).toEqual(204);
+      })
+  });
+
+  test('Should report an answer', () => {
+    return axios.put(`${API_URL}/qa/answers/report`, answerHelpfulBody)
+      .then((result) => {
+        expect(result.status).toEqual(204);
+      })
+  });
 });

@@ -14,7 +14,7 @@ app.use(express.json());
 //List Questions
 app.get('/qa/questions', (req, res) => {
   // console.log(req.body)
-  grabQuestions(req.body.product_id)
+  grabQuestions(req.body)
   .then((data) => {
     // console.log('sucesfull grab', data)
     // res.send(data)
@@ -45,7 +45,7 @@ app.get('/qa/answers', (req, res) => {
 
 //Add a Question
 app.post('/qa/questions', (req, res) => {
-  console.log('inside post req', req)
+  // console.log('inside post req', req)
   insertQuestion(req.body)
   .then((data) => {
     res.status(201)
@@ -58,10 +58,10 @@ app.post('/qa/questions', (req, res) => {
 
 //Add an answer
 app.post('/qa/questions/answers', (req, res) => {
-  // console.log(req.query)
-  insertAnswer(req.query)
+  // console.log('TESTEESTAFD', req.body)
+  insertAnswer(req.body.params)
   .then((data) => {
-    console.log('succesful insert', data)
+    // console.log('succesful insert', data)
     res.status(201)
     res.send('CREATED')
   })
@@ -75,7 +75,7 @@ app.put('/qa/questions/helpful', (req, res) => {
   console.log(req.body)
   markQuestionHelpful(req.body)
   .then((data) => {
-    console.log('succesful helpful update', data)
+    // console.log('succesful helpful update', data)
     res.status(204)
     res.send('NO CONTENT')
   })
@@ -87,9 +87,10 @@ app.put('/qa/questions/helpful', (req, res) => {
 //Report Question
 app.put('/qa/questions/report', (req, res) => {
   console.log(req.query)
-  reportQuestion(req.query)
+  reportQuestion(req.body)
   .then((data) => {
-    console.log('succesful report', data)
+    // console.log('succesful report', data)
+    res.status(204)
     res.end()
   })
   .catch((err) => {
@@ -99,10 +100,11 @@ app.put('/qa/questions/report', (req, res) => {
 
 //Mark Answer as Helpful
 app.put('/qa/answers/helpful', (req, res) => {
-  console.log(req.query)
-  markAnswerHelpful(req.query)
+  // console.log(req.query)
+  markAnswerHelpful(req.body)
   .then((data) => {
-    console.log('succesfull answer helpful', data)
+    // console.log('succesfull answer helpful', data)
+    res.status(204)
     res.end()
   })
   .catch((err) => {
@@ -112,10 +114,11 @@ app.put('/qa/answers/helpful', (req, res) => {
 
 //Report Answer
 app.put('/qa/answers/report', (req, res) => {
-  console.log(req.query)
-  reportAnswer(req.query)
+  // console.log(req.query)
+  reportAnswer(req.body)
   .then((data) => {
     console.log('succesfull answer report', data)
+    res.status(204)
     res.end()
   })
   .catch((err) => {

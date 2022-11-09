@@ -11,10 +11,10 @@ const connection = {
 const client = new Client(connection);
 client.connect()
 
-const grabQuestions = (productID) => {
+const grabQuestions = (body) => {
   return new Promise((resolve, reject) => {
 
-    client.query(`select * from questions where product_id = ${productID}`, (err, res) => {
+    client.query(`select * from questions where product_id = ${body.product_id}`, (err, res) => {
       let result = []
       if (err) {
         reject(err)
@@ -52,7 +52,7 @@ const grabAnswers = (answers) => {
 const grabAllAnswers = (id) => {
   console.log(id)
 
-  return new Promise ((resolve, reject) => {
+  return new Promise((resolve, reject) => {
 
     client.query(`select * from answers where question_id = ${id}`, (err, res) => {
       if (err) {
@@ -66,23 +66,24 @@ const grabAllAnswers = (id) => {
 }
 
 const insertQuestion = (body) => {
-console.log('test', body.product_id)
+  console.log('test', body.product_id)
 
-return new Promise ((resolve, reject) => {
+  return new Promise((resolve, reject) => {
 
-  client.query(`insert into questions (body, asker_name, asker_email, product_id, date_written, reported, helpful) values ('${body.body}', '${body.name}', '${body.email}', ${body.product_id}, ${4232}, ${false}, ${0})`, (err, res) => {
-    if (err) {
-      reject(err)
-    } else {
-      resolve(res)
-    }
+    client.query(`insert into questions (body, asker_name, asker_email, product_id, date_written, reported, helpful) values ('${body.body}', '${body.name}', '${body.email}', ${body.product_id}, ${4232}, ${false}, ${0})`, (err, res) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(res)
+      }
+    })
   })
-})
 }
 
 const insertAnswer = (body) => {
-  console.log(body)
-  // console.log(`insert into answers (question_id, body, date_written, answerer_name, answerer_email, reported, helpful) values (${body.question_id}, ${body.body}, ${132134}, ${body.name}, ${body.email}, ${false}, ${0});`)
+  // console.log(body)
+  console.log(`insert into answers (question_id, body, date_written, answerer_name, answerer_email, reported, helpful)
+                values (${body.question_id}, '${body.body}', ${24234}, '${body.name}', '${body.email}', ${false}, ${0})`)
 
   let newBody = body.body
 
