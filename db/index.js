@@ -1,5 +1,4 @@
 const { Client } = require('pg');
-const { questionFormatter } = require('./controllers.js')
 
 const connection = {
   host: 'localhost',
